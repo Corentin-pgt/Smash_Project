@@ -1,11 +1,44 @@
-[gd_scene load_steps=45 format=3 uid="uid://dxeevkpxgx1bm"]
+[gd_scene load_steps=55 format=3 uid="uid://dxeevkpxgx1bm"]
 
 [ext_resource type="Script" path="res://Character/player.gd" id="1_tl0j3"]
 [ext_resource type="Texture2D" uid="uid://b81bb8o4by68j" path="res://addons/Legacy-Fantasy - High Forest 2.3/Character/Idle/Idle-Sheet.png" id="1_y0ahl"]
+[ext_resource type="Texture2D" uid="uid://dobchmatwpuq6" path="res://addons/Legacy-Fantasy - High Forest 2.3/Character/Attack-01/Attack-01-Sheet.png" id="2_rlu2e"]
 [ext_resource type="Texture2D" uid="uid://bdvkeosi6gvgg" path="res://addons/Legacy-Fantasy - High Forest 2.3/Character/Jump-End/Jump-End-Sheet.png" id="3_tj6y2"]
 [ext_resource type="Texture2D" uid="uid://4ne1qxlmbv78" path="res://addons/Legacy-Fantasy - High Forest 2.3/Character/Jump-Start/Jump-Start-Sheet.png" id="4_206j7"]
 [ext_resource type="Texture2D" uid="uid://csyht1ho2rhoh" path="res://addons/Legacy-Fantasy - High Forest 2.3/Character/Jumlp-All/Jump-All-Sheet.png" id="5_1wyh5"]
 [ext_resource type="Texture2D" uid="uid://bgoee55exiskk" path="res://addons/Legacy-Fantasy - High Forest 2.3/Character/Run/Run-Sheet.png" id="6_rbcyh"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cmy2n"]
+atlas = ExtResource("2_rlu2e")
+region = Rect2(0, 0, 96, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wx64c"]
+atlas = ExtResource("2_rlu2e")
+region = Rect2(96, 0, 96, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_j2npt"]
+atlas = ExtResource("2_rlu2e")
+region = Rect2(192, 0, 96, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_f0nf4"]
+atlas = ExtResource("2_rlu2e")
+region = Rect2(288, 0, 96, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_f6qvt"]
+atlas = ExtResource("2_rlu2e")
+region = Rect2(384, 0, 96, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x4j00"]
+atlas = ExtResource("2_rlu2e")
+region = Rect2(480, 0, 96, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lxe8t"]
+atlas = ExtResource("2_rlu2e")
+region = Rect2(576, 0, 96, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0mfy2"]
+atlas = ExtResource("2_rlu2e")
+region = Rect2(672, 0, 96, 80)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_qtpjf"]
 atlas = ExtResource("1_y0ahl")
@@ -155,6 +188,40 @@ region = Rect2(560, 0, 80, 80)
 animations = [{
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_cmy2n")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wx64c")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_j2npt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_f0nf4")
+}],
+"loop": false,
+"name": &"attack1",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_f6qvt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_x4j00")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lxe8t")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0mfy2")
+}],
+"loop": false,
+"name": &"attack2",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_qtpjf")
 }, {
 "duration": 1.0,
@@ -296,15 +363,18 @@ animations = [{
 radius = 20.0
 height = 90.0
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ehvwk"]
+size = Vector2(92, 97)
+
 [node name="Player" type="CharacterBody2D"]
 script = ExtResource("1_tl0j3")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 scale = Vector2(2, 2)
 sprite_frames = SubResource("SpriteFrames_313xu")
-animation = &"jump_end"
+animation = &"attack1"
 autoplay = "idle"
-frame = 2
+frame = 3
 frame_progress = 1.0
 centered = false
 offset = Vector2(-32, -40)
@@ -312,5 +382,12 @@ offset = Vector2(-32, -40)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 4)
 shape = SubResource("CapsuleShape2D_quh6g")
+
+[node name="Sword" type="Area2D" parent="."]
+monitoring = false
+
+[node name="SwordShape2D" type="CollisionShape2D" parent="Sword"]
+position = Vector2(70, 0)
+shape = SubResource("RectangleShape2D_ehvwk")
 
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]
