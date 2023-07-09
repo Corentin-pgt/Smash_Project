@@ -1,11 +1,14 @@
 extends CharacterBody2D
 
 @export var player = 1
+@export var pourcent = 0
 @export var speed: float = 400.0
 @export var jump_velocity: float = -500.0
 @export var double_jump_velocity: float = -400.0
 
-@onready var animated_sprit: AnimatedSprite2D = $AnimatedSprite2D
+@onready var animated_sprit: AnimationPlayer = $AnimationPlayer
+
+signal signal_hit
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
@@ -82,13 +85,19 @@ func update_animation():
 
 func update_facing_direction():
 	if direction.x > 0:
-		animated_sprit.flip_h = false
-		var ref: Vector2 = $Sword/SwordShape2D.position
-		$Sword/SwordShape2D.position = Vector2(abs(ref.x), 0)
+		$Sprite2D.set_scale(Vector2(2,2))
+		var pos_shape1: Vector2 = $Sword/SwordShapeAttack1.position
+		var pos_shape2: Vector2 = $Sword/SwordShapeAttack2.position
+		$Sword/SwordShapeAttack1.position = Vector2(abs(pos_shape1.x), pos_shape1.y)
+		$Sword/SwordShapeAttack2.position = Vector2(abs(pos_shape2.x), pos_shape2.y)
+		
 	elif direction.x < 0:
-		animated_sprit.flip_h = true
-		var ref: Vector2 = $Sword/SwordShape2D.position
-		$Sword/SwordShape2D.position = Vector2(-abs(ref.x), 0)
+		$Sprite2D.set_scale(Vector2(-2,2))
+		var pos_shape1: Vector2 = $Sword/SwordShapeAttack1.position
+		var pos_shape2: Vector2 = $Sword/SwordShapeAttack2.position
+		$Sword/SwordShapeAttack1.position = Vector2(-abs(pos_shape1.x), pos_shape1.y)
+		$Sword/SwordShapeAttack2.position = Vector2(-abs(pos_shape2.x), pos_shape2.y)
+		
 
 func jump():
 	velocity.y = jump_velocity
@@ -119,12 +128,13 @@ func attack():
 			type_attack = 1
 		animation_locked = true
 		has_attack = true
-		$Sword.monitoring = true
-		$Sword.visible = true
 
-func _on_animated_sprite_2d_animation_finished():
-	if ["jump_start", "jump_end", "jump_double", "attack1", "attack2"].has(animated_sprit.animation):
+func hit(damage):
+	pourcent += damage
+	signal_hit.emit(self.name, pourcent)
+
+
+func _on_animation_player_animation_finished(anim_name):
+	if ["jump_start", "jump_end", "jump_double", "attack1", "attack2"].has(anim_name):
 		animation_locked = false
 		has_attack = false
-		$Sword.monitoring = false
-		$Sword.visible = false

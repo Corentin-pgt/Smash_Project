@@ -1,8 +1,34 @@
-[gd_scene load_steps=6 format=3 uid="uid://cd7hj68qig3dv"]
+[gd_scene load_steps=7 format=3 uid="uid://cd7hj68qig3dv"]
 
 [ext_resource type="Texture2D" uid="uid://s2vt5khou6u1" path="res://addons/Legacy-Fantasy - High Forest 2.3/Assets/Tiles.png" id="1_i1fxj"]
 [ext_resource type="PackedScene" uid="uid://dxeevkpxgx1bm" path="res://Character/player.tscn" id="2_f6ieu"]
 [ext_resource type="PackedScene" uid="uid://baem2jovyianb" path="res://HUD/hud.tscn" id="3_h2vcq"]
+
+[sub_resource type="GDScript" id="GDScript_yi8yq"]
+script/source = "extends Node2D
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	pass # Replace with function body.
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta):
+	pass
+
+
+
+func _on_player_signal_hit(name, pourcent):
+	print(\"Name : \", name, \"% : \", pourcent)
+	$HUD.update_pourcent(name, pourcent)
+
+
+
+func _on_player_2_signal_hit(name, pourcent):
+	print(\"Name : \", name, \"% : \", pourcent)
+	$HUD.update_pourcent(name, pourcent) # Replace with function body.
+"
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_75l0o"]
 texture = ExtResource("1_i1fxj")
@@ -1424,6 +1450,7 @@ physics_layer_0/collision_layer = 1
 sources/0 = SubResource("TileSetAtlasSource_75l0o")
 
 [node name="Level" type="Node2D"]
+script = SubResource("GDScript_yi8yq")
 
 [node name="TileMap" type="TileMap" parent="."]
 tile_set = SubResource("TileSet_1k5v7")
@@ -1444,7 +1471,7 @@ position = Vector2(338, 221)
 player = 2
 
 [node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2(338, 221)
+position = Vector2(722, 220)
 process_callback = 0
 position_smoothing_enabled = true
 drag_horizontal_enabled = true
@@ -1452,3 +1479,6 @@ drag_vertical_enabled = true
 drag_left_margin = 0.7
 drag_top_margin = 0.7
 drag_right_margin = 0.8
+
+[connection signal="signal_hit" from="Player" to="." method="_on_player_signal_hit"]
+[connection signal="signal_hit" from="Player2" to="." method="_on_player_2_signal_hit"]

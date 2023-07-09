@@ -1,8 +1,11 @@
-[gd_scene format=3 uid="uid://baem2jovyianb"]
+[gd_scene load_steps=2 format=3 uid="uid://baem2jovyianb"]
+
+[ext_resource type="Script" path="res://HUD/hud.gd" id="1_olim4"]
 
 [node name="HUD" type="CanvasLayer"]
+script = ExtResource("1_olim4")
 
-[node name="Label" type="Label" parent="."]
+[node name="Info" type="Label" parent="."]
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
@@ -12,5 +15,30 @@ offset_bottom = 52.0
 grow_horizontal = 2
 text = "zqsd / j
 flèches / clic gauche"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="P1" type="Label" parent="."]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -70.0
+offset_right = 600.0
+grow_vertical = 0
+text = "Player 1 : 0%"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="P2" type="Label" parent="."]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -600.0
+offset_top = -70.0
+grow_horizontal = 0
+grow_vertical = 0
+text = "Player 2 : 0%"
 horizontal_alignment = 1
 vertical_alignment = 1
