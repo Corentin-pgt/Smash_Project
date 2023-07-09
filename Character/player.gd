@@ -1,6 +1,6 @@
 extends CharacterBody2D
 
-
+@export var player = 1
 @export var speed: float = 400.0
 @export var jump_velocity: float = -500.0
 @export var double_jump_velocity: float = -400.0
@@ -16,6 +16,26 @@ var was_in_air: bool = false
 var type_attack: int = 1
 var has_attack: bool = false
 
+var JUMP
+var LEFT
+var RIGHT
+var DOWN
+var ATTACK
+
+func _ready():
+	if player == 1:
+		JUMP = "p1_jump"
+		LEFT = "p1_left"
+		RIGHT = "p1_right"
+		DOWN = "p1_down"
+		ATTACK = "p1_attack"
+	elif player == 2:
+		JUMP = "p2_jump"
+		LEFT = "p2_left"
+		RIGHT = "p2_right"
+		DOWN = "p2_down"
+		ATTACK = "p2_attack"
+
 func _physics_process(delta):
 	# Add the gravity.
 	if not is_on_floor():
@@ -28,18 +48,18 @@ func _physics_process(delta):
 			land()
 		was_in_air = false
 	# Handle Jump.
-	if Input.is_action_just_pressed("jump"):
+	if Input.is_action_just_pressed(JUMP):
 		if is_on_floor():
 			jump()
 		elif not has_double_jumped:
 			double_jump()
 
-	if Input.is_action_pressed("attack"):
+	if Input.is_action_pressed(ATTACK):
 		attack()
 	
 	# Get the input direction and handle the movement/deceleration.
 	# As good practice, you should replace UI actions with custom gameplay actions.
-	direction = Input.get_vector("left", "right", "up", "down")
+	direction = Input.get_vector(LEFT, RIGHT, JUMP, DOWN)
 	if direction.x != 0:
 		velocity.x = direction.x * speed
 	else:
